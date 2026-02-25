@@ -1,0 +1,144 @@
+{
+    "version":"1.2",
+    "lastModified":"2026-02-25",
+    "tracker":{
+        "version":{
+            "current":"gb-tracker-client-5.min.js"
+        }
+    },
+    "validation":[
+        {
+            "type":"version",
+            "tests":{
+                            "name":"Script Version Up To Date",
+                            "conditions":[
+                                {
+                                    "type":"string_compare",
+                                    "left":"$tracker.trackerVersion",
+                                    "right":"$version.current"
+                                }
+                            ]
+                        
+                        },
+            "success":{
+                "response":"Version is up to date ✅",
+                "actions":[]
+            },
+            "fail":{
+                "response":"Version is out of date ⚠️ Please update to Current version: ${$version.current}",
+                "actions":[{
+                    "function":"pushError",
+                    "args":["Outdated Tracker Version","warning","Version is out of date","Update version of tracker script to ${$version.current}"]
+                }]
+            }
+        },
+        {
+            "type":"loginId",
+            "tests":{
+                    "name":"Validate Login ID value",
+                    "conditions":{
+                        "logic":"OR",
+                        "conditions":[
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.visit.customerData.loginId",
+                                "right":"undefined"
+                            },
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.visit.customerData.loginId",
+                                "right":"null"
+                            },
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.visit.customerData.loginId",
+                                "right":""
+                            }
+                        ]
+                    }
+                },
+                
+            "success":{
+                "response":"\"visit.customerData.loginId\" invalid. ❌ Value set to undefined|null|or empty string",
+                "actions":[{
+                    "function":"pushError",
+                    "args":["Invalid Field - Login ID","error","Error in beacon data:Field \"visit.customerData.loginId\" invalid. Current value set to \"${$beacon.visit.customerData.loginId}\".","Remove Field \"visit.customerData.loginId\" from the request if no login ID is avaialble"]
+                    }]
+                },
+            "fail":{
+                "response":"login ID appears to be valid ✅",
+                "actions":[]
+            }
+        },
+        {
+            "type":"origin",
+            "tests":
+                {
+                    "name":"Invalid Origin",
+                    "conditions":{
+                        "logic":"AND",
+                        "conditions":[
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.eventType",
+                                "right":"autoSearch"
+                            },
+                            {
+                                "type":"number_compare",
+                                "left":"$beaconOriginCount",
+                                "right":"1",
+                                "operator":">"
+                            }
+                        ]
+                    }
+                }
+            ,
+            "success":{
+                "response":"Beacon Origin has too many options set to true ❌ Set only 1 origin type to be true. If origin is not relevant, set “search” to true.",
+                "actions":[{
+                    "function":"pushError",
+                    "args":["Invalid Field - Origin","error","Error in beacon data:Field \"search.origin\" invalid. Only 1 origin type can be true at a time","Set only 1 origin type to be true. If origin is not relevant, set \"search\" to true."]
+                }]
+            },
+            "fail":{
+                "response":"Beacon Origin does not exceed 1 ✅",
+                "actions":[]
+            }
+        },
+        {
+            "type":"origin",
+            "tests":
+                {
+                    "name":"Missing Origin",
+                    "conditions":{
+                        "logic":"AND",
+                        "conditions":[
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.eventType",
+                                "right":"autoSearch"
+                            },
+                            {
+                                "type":"number_compare",
+                                "left":"$beaconOriginCount",
+                                "right":"1",
+                                "operator":"<"
+                            }
+                        ]
+                    }
+                }
+            ,
+            "success":{
+                "response":"Beacon Origin is missing an iption to be set to true ❌ Set 1 origin type to be true. If origin is not relevant, set “search” to true.",
+                "actions":[{
+                    "function":"pushError",
+                    "args":["Missing Field - Origin","error","Error in beacon data:Field \"search.origin\" Missing.","Set only 1 origin type to be true. If origin is not relevant, set \"search\" to true."]
+                }]
+            },
+            "fail":{
+                "response":"Beacon Origin has at least 1 selection ✅",
+                "actions":[]
+            }
+        }
+    ]
+}
