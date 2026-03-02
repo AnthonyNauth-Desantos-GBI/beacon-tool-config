@@ -1,15 +1,13 @@
 {
     "version":"1.2",
-    "lastModified":"2026-02-25",
+    "lastModified":"2026-03-02",
     "tracker":{
         "version":{
-            "current":"gb-tracker-client-5.min.js"
-        }
-    },
-    "validation":[
-        {
-            "type":"version",
-            "tests":{
+            "current":"gb-tracker-client-5.min.js",
+            "validation":[
+                 {
+                    "type":"version",
+                    "tests":{
                             "name":"Script Version Up To Date",
                             "conditions":[
                                 {
@@ -18,20 +16,24 @@
                                     "right":"$version.current"
                                 }
                             ]
-                        
-                        },
-            "success":{
-                "response":"Version is up to date ✅",
-                "actions":[]
-            },
-            "fail":{
-                "response":"Version is out of date ⚠️ Please update to Current version: ${$version.current}",
-                "actions":[{
-                    "function":"pushError",
-                    "args":["Outdated Tracker Version","warning","Version is out of date","Update version of tracker script to ${$version.current}"]
-                }]
-            }
-        },
+                            
+                            },
+                    "success":{
+                        "response":"Version is up to date ✅",
+                        "actions":[]
+                    },
+                    "fail":{
+                        "response":"Version is out of date ⚠️ Please update to Current version: ${$version.current}",
+                        "actions":[{
+                            "function":"pushVersionError",
+                            "args":["Outdated Tracker Version","warning","Version is out of date","Update version of tracker script to ${$version.current}"]
+                        }]
+                    }
+                }
+            ]
+        }
+    },
+    "validation":[
         {
             "type":"loginId",
             "tests":{
@@ -129,7 +131,7 @@
                 }
             ,
             "success":{
-                "response":"Beacon Origin is missing an iption to be set to true ❌ Set 1 origin type to be true. If origin is not relevant, set “search” to true.",
+                "response":"Beacon Origin is missing an option to be set to true ❌ Set 1 origin type to be true. If origin is not relevant, set “search” to true.",
                 "actions":[{
                     "function":"pushError",
                     "args":["Missing Field - Origin","error","Error in beacon data:Field \"search.origin\" Missing.","Set only 1 origin type to be true. If origin is not relevant, set \"search\" to true."]
