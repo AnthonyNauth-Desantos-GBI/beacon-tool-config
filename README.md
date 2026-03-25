@@ -4,14 +4,41 @@ Used by the Rezolve Beacons Identifier Extension(WIP) to validate beacons
 
 The JSON file is used to provide validation tests on the incoming beacons and provide necessary responses for the user including details on how to resolve the errors.
 
-## How to Update
+## Available Fields
 
-# Updating the `main` Branch of Example Repo  
-Using a new branch and pull request workflow
+In this config you may call variables to compare by using the `$` like so `$beacon` 
+This will grant you access to the variable context as porovided by the extension. 
+
+As of Version 1.2.0 fields available are as follows
+
+- $beacon
+    -- Includes all fields of the Beacon Response JSON in the format they appear in the response. eg. you can access Login ID by using $beacon.visit.customerData.loginId see Rezolve Customer Beacon docs for more details
+- $tracker
+    -- Includes the tracker data such as the script used to dertermine the tracker's version
+- $beaconOriginCount
+    -- Includes a numeric value of the number of Beacon Origin fields are set to true
+
+## Comparitors
+
+There are currenlty 2 methods for comparing values
+
+- number_compare
+used to compare direct number values and numeric variables. you may use the following to compare values as needed.
+   -- "<" value on left is less than the right
+   -- ">" value on left is greater than the right
+   -- "<=" value on left is less or equal to value on the right
+   -- ">=" value on left is greater or equal to value on the right
+   -- "%" value on left divided by value on the right contains remainder(if divisible will be false, if there is a remainder will return true)
+   -- "==" value on left is equal to value on the right
+
+- string_compare
+   Compares the string value as is unmodified if they are equal will return true
+
+## How to Update
 
 ---
 
-## Method 1: Using the Terminal
+### Using the Terminal
 
 1. **Clone the repository (first time only):**  
    `git clone https://github.com/AnthonyNauth-Desantos-GBI/beacon-tool-config.git`
@@ -44,7 +71,7 @@ Using a new branch and pull request workflow
 
 ---
 
-## Method 2: Using GitHub Desktop
+### Using GitHub Desktop
 
 1. **Clone the repository (first time only):**  
    - Open GitHub Desktop → **File** → **Clone repository…**  
