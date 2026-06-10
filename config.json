@@ -174,7 +174,7 @@
                 }
             ,
             "success":{
-                "response":"Cart CartType can not be empty string, must have a length of at least 1 character",
+                "response":"Cart CartType Invalid ❌ CartType Can not be empty string, must have a length of at least 1 character",
                 "actions":[{
                     "function":"pushError",
                     "args":["Invalid Field - CartType","error","Error in beacon data:Field \"cart.cartType\" invalid. cartType can not be empty string","Set to \"cart\" if needed or remove cart.cartType entirely"]
