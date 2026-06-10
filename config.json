@@ -141,6 +141,49 @@
                 "response":"Beacon Origin has at least 1 selection ✅",
                 "actions":[]
             }
+        },
+        {
+            "type":"cart",
+            "tests":
+                {
+                    "name":"Invalid CartType",
+                    "conditions":{
+                        "logic":"OR",
+                        "conditions":[
+                          
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.cart.cartType",
+                                "right":""
+                                
+                            },
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.cart.cartType",
+                                "right":"undefined"
+                                
+                            },
+                            {
+                                "type":"string_compare",
+                                "left":"$beacon.cart.cartType",
+                                "right":"null"
+                                
+                            }
+                        ]
+                    }
+                }
+            ,
+            "success":{
+                "response":"Cart CartType can not be empty string, must have a length of at least 1 character",
+                "actions":[{
+                    "function":"pushError",
+                    "args":["Invalid Field - CartType","error","Error in beacon data:Field \"cart.cartType\" invalid. cartType can not be empty string","Set to \"cart\" if needed or remove cart.cartType entirely"]
+                }]
+            },
+            "fail":{
+                "response":"Cart CartType is not empty and appears to be valid ✅",
+                "actions":[]
+            }
         }
     ]
 }
